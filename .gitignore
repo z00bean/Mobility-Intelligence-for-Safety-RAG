@@ -7,7 +7,7 @@ MISO/
 *.pdf
 .kiro/
 .json
-..vscode/
+.vscode/
 
 # Logs
 logs
