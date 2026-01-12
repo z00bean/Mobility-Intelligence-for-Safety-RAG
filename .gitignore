@@ -5,9 +5,7 @@ MISO/
 *.pptx
 *.docx
 *.pdf
-.kiro/
-.json
-.metadata.json
+*.metadata.json
 .vscode/
 
 # Logs
