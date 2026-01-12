@@ -6,6 +6,7 @@ MISO/
 *.docx
 *.pdf
 .kiro/
+.json
 
 # Logs
 logs
