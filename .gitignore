@@ -5,6 +5,7 @@ MISO/
 *.pptx
 *.docx
 *.pdf
+metadata.json
 *.metadata.json
 .vscode/
 
