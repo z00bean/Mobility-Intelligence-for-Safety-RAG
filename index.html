@@ -1,97 +1,870 @@
 <!DOCTYPE html>
-<!--
-python -m http.server 8000
-http://localhost:8000
--->
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>MISO RAG Prototype</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="MISO - Mobility Intelligence for Safety & Operations. Standards-grounded AI for transportation safety research and education.">
+  <title>MISO — Mobility Intelligence for Safety & Operations</title>
+  
+  <!-- CSS Reset via CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  
+  <!-- Google Fonts - Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      margin: 40px;
-      max-width: 900px;
+    /* CSS Custom Properties for Light Pastel Purple Theme */
+    :root {
+      /* Primary Colors */
+      --color-primary: #E8E2F0;           /* Light pastel purple */
+      --color-primary-light: #F4F1F7;     /* Lighter variant */
+      --color-primary-dark: #D4C5E0;      /* Darker variant for accents */
+      
+      /* Background Colors */
+      --color-bg-primary: #FFFFFF;        /* Pure white background */
+      --color-bg-secondary: #FEFEFE;      /* Very light background */
+      --color-bg-accent: var(--color-primary-light);
+      
+      /* Text Colors */
+      --color-text-primary: #2D2D2D;      /* Dark gray for primary text */
+      --color-text-secondary: #5A5A5A;    /* Medium gray for secondary text */
+      --color-text-muted: #8A8A8A;        /* Light gray for muted text */
+      
+      /* Interactive Colors */
+      --color-interactive: var(--color-primary-dark);
+      --color-interactive-hover: #C4B5D0;
+      --color-interactive-active: #B8A5C8;
+      
+      /* Border Colors */
+      --color-border-light: #E5E5E5;
+      --color-border-medium: #D0D0D0;
+      --color-border-accent: var(--color-primary);
+      
+      /* Typography */
+      --font-family-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-size-base: 16px;
+      --font-size-sm: 14px;
+      --font-size-lg: 18px;
+      --font-size-xl: 24px;
+      --font-size-2xl: 32px;
+      
+      --font-weight-light: 300;
+      --font-weight-normal: 400;
+      --font-weight-medium: 500;
+      --font-weight-semibold: 600;
+      --font-weight-bold: 700;
+      
+      --line-height-tight: 1.25;
+      --line-height-normal: 1.5;
+      --line-height-relaxed: 1.75;
+      
+      /* Spacing */
+      --spacing-xs: 0.25rem;   /* 4px */
+      --spacing-sm: 0.5rem;    /* 8px */
+      --spacing-md: 1rem;      /* 16px */
+      --spacing-lg: 1.5rem;    /* 24px */
+      --spacing-xl: 2rem;      /* 32px */
+      --spacing-2xl: 3rem;     /* 48px */
+      
+      /* Border Radius */
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      
+      /* Shadows */
+      --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+      
+      /* Transitions */
+      --transition-fast: 150ms ease-in-out;
+      --transition-normal: 250ms ease-in-out;
+      --transition-slow: 350ms ease-in-out;
+      
+      /* Responsive Breakpoints */
+      --breakpoint-mobile: 768px;
+      --breakpoint-tablet: 1200px;
     }
 
-    textarea {
-      width: 100%;
-      font-size: 14px;
-      padding: 10px;
-      resize: vertical;
+    /* Base Styles */
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      font-size: var(--font-size-base);
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: var(--font-family-primary);
+      font-weight: var(--font-weight-normal);
+      line-height: var(--line-height-normal);
+      color: var(--color-text-primary);
+      background-color: var(--color-bg-primary);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Accessibility Improvements */
+    *:focus {
+      outline: 2px solid var(--color-interactive);
+      outline-offset: 2px;
+    }
+
+    /* Skip to main content link for screen readers */
+    .skip-link {
+      position: absolute;
+      top: -40px;
+      left: 6px;
+      background: var(--color-interactive);
+      color: white;
+      padding: 8px;
+      text-decoration: none;
+      border-radius: var(--radius-sm);
+      z-index: 1000;
+      transition: top var(--transition-fast);
+    }
+
+    .skip-link:focus {
+      top: 6px;
+    }
+
+    /* Typography Hierarchy */
+    h1, h2, h3, h4, h5, h6 {
+      font-weight: var(--font-weight-semibold);
+      line-height: var(--line-height-tight);
+      margin: 0 0 var(--spacing-md) 0;
+      color: var(--color-text-primary);
+    }
+
+    h1 {
+      font-size: var(--font-size-2xl);
+      font-weight: var(--font-weight-bold);
+    }
+
+    h2 {
+      font-size: var(--font-size-xl);
+    }
+
+    h3 {
+      font-size: var(--font-size-lg);
+    }
+
+    p {
+      margin: 0 0 var(--spacing-md) 0;
+      color: var(--color-text-secondary);
+    }
+
+    /* Interactive Elements Base Styles */
+    button, input, textarea, select {
+      font-family: inherit;
+      font-size: inherit;
     }
 
     button {
-      padding: 8px 14px;
-      margin: 4px 4px 4px 0;
-      font-size: 14px;
       cursor: pointer;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: var(--spacing-sm) var(--spacing-md);
+      font-weight: var(--font-weight-medium);
+      transition: all var(--transition-fast);
+      background-color: var(--color-interactive);
+      color: var(--color-text-primary);
+    }
+
+    button:hover:not(:disabled) {
+      background-color: var(--color-interactive-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    button:active:not(:disabled) {
+      background-color: var(--color-interactive-active);
+      transform: translateY(0);
     }
 
     button:disabled {
       opacity: 0.6;
       cursor: not-allowed;
+      transform: none;
     }
 
-    .preset-buttons {
-      margin-bottom: 10px;
+    /* Links */
+    a {
+      color: var(--color-interactive);
+      text-decoration: none;
+      transition: color var(--transition-fast);
     }
 
-    pre {
-      white-space: pre-wrap;       /* 🔥 enables word wrap */
+    a:hover {
+      color: var(--color-interactive-hover);
+      text-decoration: underline;
+    }
+
+    /* Responsive Design Foundation */
+    .container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 var(--spacing-md);
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 0 var(--spacing-lg);
+      }
+    }
+
+    @media (min-width: 1200px) {
+      .container {
+        padding: 0 var(--spacing-xl);
+      }
+    }
+
+    /* Header Component Styles */
+    .main-header {
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      border-bottom: 1px solid var(--color-border-accent);
+      padding: var(--spacing-lg) 0;
+      position: relative;
+    }
+
+    .header-content {
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing-md);
+      align-items: center;
+      text-align: center;
+    }
+
+    .branding h1 {
+      margin: 0 0 var(--spacing-sm) 0;
+      font-size: var(--font-size-xl);
+      font-weight: var(--font-weight-bold);
+      color: var(--color-text-primary);
+    }
+
+    .branding .tagline {
+      margin: 0;
+      font-size: var(--font-size-base);
+      color: var(--color-text-secondary);
+      font-weight: var(--font-weight-normal);
+    }
+
+    .header-nav {
+      display: flex;
+      gap: var(--spacing-lg);
+      align-items: center;
+    }
+
+    .header-nav a {
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-md);
+      background-color: rgba(255, 255, 255, 0.8);
+      color: var(--color-text-primary);
+      text-decoration: none;
+      font-weight: var(--font-weight-medium);
+      transition: all var(--transition-fast);
+      border: 1px solid var(--color-border-light);
+    }
+
+    .header-nav a:hover {
+      background-color: rgba(255, 255, 255, 0.95);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+      text-decoration: none;
+    }
+
+    .local-login {
+      position: relative;
+    }
+
+    .local-login:hover::after {
+      content: "Requires UML network access";
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-text-primary);
+      color: white;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius-sm);
+      font-size: var(--font-size-sm);
+      white-space: nowrap;
+      z-index: 1000;
+      opacity: 0.9;
+    }
+
+    /* About Section Styles */
+    .about-section {
+      padding: var(--spacing-xl) 0;
+      text-align: center;
+      background-color: var(--color-bg-secondary);
+    }
+
+    .about-content p {
+      font-size: var(--font-size-lg);
+      color: var(--color-text-primary);
+      margin-bottom: var(--spacing-lg);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .domain-tags {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--spacing-sm);
+      margin-top: var(--spacing-lg);
+    }
+
+    .tag {
+      background-color: var(--color-primary);
+      color: var(--color-text-primary);
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: var(--radius-lg);
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-medium);
+      border: 1px solid var(--color-border-accent);
+    }
+
+    /* Sample Questions Styles */
+    .sample-questions {
+      padding: var(--spacing-xl) 0;
+    }
+
+    .sample-questions h2 {
+      text-align: center;
+      margin-bottom: var(--spacing-xl);
+      color: var(--color-text-primary);
+    }
+
+    .question-grid {
+      display: grid;
+      gap: var(--spacing-md);
+      margin-bottom: var(--spacing-xl);
+    }
+
+    .question-card {
+      background: white;
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      text-align: left;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .question-card:hover {
+      border-color: var(--color-interactive);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      background-color: var(--color-bg-accent);
+    }
+
+    .question-card:active {
+      transform: translateY(0);
+    }
+
+    .question-text {
+      display: block;
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-normal);
+      color: var(--color-text-primary);
+    }
+
+    .additional-questions {
+      margin-top: var(--spacing-xl);
+    }
+
+    .additional-questions summary {
+      cursor: pointer;
+      padding: var(--spacing-md);
+      background-color: var(--color-bg-accent);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-light);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+      transition: all var(--transition-fast);
+    }
+
+    .additional-questions summary:hover {
+      background-color: var(--color-primary);
+    }
+
+    .question-list {
+      margin-top: var(--spacing-md);
+      display: grid;
+      gap: var(--spacing-md);
+    }
+
+    /* Chat Interface Styles */
+    .chat-interface {
+      padding: var(--spacing-xl) 0;
+      background-color: var(--color-bg-secondary);
+    }
+
+    .chat-history {
+      min-height: 300px;
+      max-height: 500px;
+      overflow-y: auto;
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      background-color: white;
+      margin-bottom: var(--spacing-md);
+      scroll-behavior: smooth;
+    }
+
+    .chat-input-area {
+      background-color: white;
+      border: 1px solid var(--color-border-light);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+    }
+
+    .input-group {
+      display: flex;
+      gap: var(--spacing-md);
+      align-items: flex-end;
+    }
+
+    #queryInput {
+      flex: 1;
+      border: 1px solid var(--color-border-medium);
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md);
+      font-family: inherit;
+      font-size: var(--font-size-base);
+      line-height: var(--line-height-normal);
+      resize: vertical;
+      min-height: 80px;
+      transition: border-color var(--transition-fast);
+    }
+
+    #queryInput:focus {
+      border-color: var(--color-interactive);
+      outline: none;
+    }
+
+    .send-btn {
+      background-color: var(--color-interactive);
+      color: white;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: var(--spacing-md) var(--spacing-lg);
+      font-weight: var(--font-weight-medium);
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      min-height: 80px;
+    }
+
+    .send-btn:hover:not(:disabled) {
+      background-color: var(--color-interactive-hover);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-icon {
+      font-size: var(--font-size-lg);
+      transition: transform var(--transition-fast);
+    }
+
+    .send-btn:hover .btn-icon {
+      transform: translateX(2px);
+    }
+
+    /* Message Styles */
+    .message {
+      margin-bottom: var(--spacing-md);
+      padding: var(--spacing-md);
+      border-radius: var(--radius-md);
+      max-width: 80%;
       word-wrap: break-word;
-      background: #f6f8fa;
-      padding: 15px;
-      border-radius: 6px;
-      font-size: 14px;
-      line-height: 1.5;
-      margin-top: 15px;
     }
+
+    .user-message {
+      background-color: var(--color-primary-light);
+      border: 1px solid var(--color-primary);
+      margin-left: auto;
+      text-align: right;
+    }
+
+    .miso-message {
+      background-color: var(--color-bg-accent);
+      border: 1px solid var(--color-border-light);
+      margin-right: auto;
+    }
+
+    .error-message {
+      background-color: #fee;
+      border-color: #fcc;
+      color: #c33;
+    }
+
+    .thinking {
+      font-style: italic;
+      opacity: 0.8;
+    }
+
+    /* Footer Styles */
+    .main-footer {
+      background-color: var(--color-bg-secondary);
+      border-top: 1px solid var(--color-border-light);
+      padding: var(--spacing-lg) 0;
+      margin-top: auto;
+    }
+
+    .footer-content {
+      text-align: center;
+      color: var(--color-text-muted);
+      font-size: var(--font-size-sm);
+    }
+
+    .footer-content p {
+      margin: var(--spacing-xs) 0;
+    }
+
+    /* Responsive Breakpoints Implementation */
+    
+    /* Mobile Layout (<768px) - Single column stacked */
+    @media (max-width: 767px) {
+      .header-content {
+        text-align: center;
+      }
+      
+      .branding h1 {
+        font-size: var(--font-size-lg);
+      }
+      
+      .header-nav {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        width: 100%;
+      }
+      
+      .header-nav a {
+        width: 100%;
+        text-align: center;
+      }
+      
+      .question-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .domain-tags {
+        justify-content: center;
+      }
+      
+      .input-group {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .send-btn {
+        min-height: 50px;
+        justify-content: center;
+      }
+      
+      .message {
+        max-width: 95%;
+      }
+    }
+
+    /* Tablet Layout (768px-1199px) - Two column or adapted layout */
+    @media (min-width: 768px) and (max-width: 1199px) {
+      .header-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+      }
+      
+      .branding h1 {
+        font-size: var(--font-size-xl);
+      }
+      
+      .question-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .input-group {
+        align-items: flex-end;
+      }
+    }
+
+    /* Desktop Layout (1200px+) - Full three-column layout */
+    @media (min-width: 1200px) {
+      .header-content {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        text-align: left;
+      }
+      
+      .branding h1 {
+        font-size: var(--font-size-2xl);
+      }
+      
+      .question-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+      
+      .main-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: var(--spacing-xl);
+        align-items: start;
+      }
+      
+      .about-section {
+        grid-column: 1;
+      }
+      
+      .sample-questions {
+        grid-column: 2;
+      }
+      
+      .chat-interface {
+        grid-column: 3;
+      }
+    }
+
+    /* Smooth transitions for layout changes */
+    .container,
+    .header-content,
+    .question-grid,
+    .main-content {
+      transition: all var(--transition-normal);
+    }
+
+    /* Ensure no content overflow */
+    * {
+      max-width: 100%;
+    }
+    
+    img, video, iframe {
+      height: auto;
+    }
+
+    /* Utility Classes */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .text-center {
+      text-align: center;
+    }
+
+    .mb-0 { margin-bottom: 0; }
+    .mb-sm { margin-bottom: var(--spacing-sm); }
+    .mb-md { margin-bottom: var(--spacing-md); }
+    .mb-lg { margin-bottom: var(--spacing-lg); }
+    .mb-xl { margin-bottom: var(--spacing-xl); }
   </style>
 </head>
 
 <body>
-  <h2>MISO Knowledge Assistant</h2>
+  <!-- Skip to main content link for accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-  <div class="preset-buttons">
-    <strong>Quick questions:</strong><br>
-    <button onclick="setQuestion('What is MUTCD Part 6 about?')">MUTCD Part 6</button>
-    <button onclick="setQuestion('What are standard pavement marking thickness requirements?')">Pavement Marking Thickness</button>
-    <button onclick="setQuestion('How do pavement markings affect autonomous vehicle perception?')">AV + Pavement Markings</button>
-    <button onclick="setQuestion('What are temporary traffic control zones?')">Work Zones</button>
-  </div>
+  <!-- Header Section -->
+  <header class="main-header" role="banner">
+    <div class="container">
+      <div class="header-content">
+        <div class="branding">
+          <h1>MISO — Mobility Intelligence for Safety & Operations</h1>
+          <p class="tagline">Standards-grounded AI for transportation safety research and education</p>
+        </div>
+        <nav class="header-nav" role="navigation" aria-label="Main navigation">
+          <a href="http://172.14.224.19:5000" class="local-login" title="Access local MISO instance (requires UML network)">Local Login</a>
+          <a href="https://github.com/z00bean/Mobility-Intelligence-for-Safety-RAG/" target="_blank" rel="noopener noreferrer" class="github-link">
+            GitHub
+            <span class="sr-only">(opens in new tab)</span>
+          </a>
+        </nav>
+      </div>
+    </div>
+  </header>
 
-  <textarea
-    id="q"
-    rows="4"
-    placeholder="Ask about MUTCD, FHWA, AV guidance..."
-  ></textarea>
+  <!-- Main Content -->
+  <main id="main-content" class="main-content" role="main">
+    <div class="container">
+      
+      <!-- About Section -->
+      <section class="about-section" aria-labelledby="about-heading">
+        <h2 id="about-heading" class="sr-only">About MISO</h2>
+        <div class="about-content">
+          <p>Query authoritative transportation standards and regulations from USDOT, FHWA, FAA, OSHA, AV Policy, and MUTCD sources.</p>
+          <div class="domain-tags" role="list" aria-label="Covered domains">
+            <span class="tag" role="listitem">USDOT</span>
+            <span class="tag" role="listitem">FHWA</span>
+            <span class="tag" role="listitem">FAA</span>
+            <span class="tag" role="listitem">OSHA</span>
+            <span class="tag" role="listitem">AV Policy</span>
+            <span class="tag" role="listitem">MUTCD</span>
+          </div>
+        </div>
+      </section>
 
-  <br><br>
+      <!-- Sample Questions Section -->
+      <section class="sample-questions" aria-labelledby="sample-questions-heading">
+        <h2 id="sample-questions-heading">Sample Research Questions</h2>
+        <div class="question-grid" role="list" aria-label="Sample questions">
+          <button class="question-card" role="listitem" data-question="How does DOE define 'system-level' impacts of automated vehicles?" aria-describedby="question-help">
+            <span class="question-text">How does DOE define "system-level" impacts of automated vehicles?</span>
+          </button>
+          <button class="question-card" role="listitem" data-question="Which vehicle convenience technologies depend on spectrum-based communications, and which radar band is reserved for vehicular use?" aria-describedby="question-help">
+            <span class="question-text">Which vehicle convenience technologies depend on spectrum-based communications?</span>
+          </button>
+          <button class="question-card" role="listitem" data-question="Why is computing efficiency a critical barrier to SAE Level 5 AV deployment?" aria-describedby="question-help">
+            <span class="question-text">Why is computing efficiency a critical barrier to SAE Level 5 AV deployment?</span>
+          </button>
+          <button class="question-card" role="listitem" data-question="How does 21CTP support pre-competitive collaboration between industry and government?" aria-describedby="question-help">
+            <span class="question-text">How does 21CTP support pre-competitive collaboration?</span>
+          </button>
+          <button class="question-card" role="listitem" data-question="What factors are used to determine whether roadway lighting is required?" aria-describedby="question-help">
+            <span class="question-text">What factors determine roadway lighting requirements?</span>
+          </button>
+          <button class="question-card" role="listitem" data-question="Under what conditions should OSHA request a copy of the traffic control plan (TCP)?" aria-describedby="question-help">
+            <span class="question-text">When should OSHA request a traffic control plan copy?</span>
+          </button>
+        </div>
+        
+        <details class="additional-questions">
+          <summary>More example research questions</summary>
+          <div class="question-list" role="list" aria-label="Additional sample questions">
+            <button class="question-card" role="listitem" data-question="How could AV manufacturers align product roadmaps with DOE energy priorities?" aria-describedby="question-help">
+              <span class="question-text">How could AV manufacturers align with DOE energy priorities?</span>
+            </button>
+            <button class="question-card" role="listitem" data-question="How can changes in 3GPP specifications affect transportation systems, and which 5G vehicle use cases are targeted?" aria-describedby="question-help">
+              <span class="question-text">How do 3GPP specification changes affect transportation systems?</span>
+            </button>
+          </div>
+        </details>
+        
+        <p id="question-help" class="sr-only">Click any question to populate the chat input field</p>
+      </section>
 
-  <button id="askBtn" onclick="ask()">Ask</button>
+      <!-- Chat Interface Section -->
+      <section class="chat-interface" aria-labelledby="chat-heading">
+        <h2 id="chat-heading" class="sr-only">Chat with MISO</h2>
+        
+        <div class="chat-history" id="chatHistory" role="log" aria-live="polite" aria-label="Conversation history">
+          <!-- Dynamic conversation content will be added here -->
+        </div>
+        
+        <div class="chat-input-area">
+          <div class="input-group">
+            <label for="queryInput" class="sr-only">Enter your question about transportation standards</label>
+            <textarea 
+              id="queryInput" 
+              placeholder="Ask about MUTCD, FHWA, FAA regulations..."
+              rows="3"
+              aria-describedby="input-help"
+              aria-required="true"
+            ></textarea>
+            <button id="sendButton" class="send-btn" type="button" aria-describedby="send-help">
+              <span class="btn-text">Send</span>
+              <span class="btn-icon" aria-hidden="true">→</span>
+            </button>
+          </div>
+          <p id="input-help" class="sr-only">Press Enter to send, Shift+Enter for new line</p>
+          <p id="send-help" class="sr-only">Send your question to MISO</p>
+        </div>
+      </section>
 
-  <pre id="answer"></pre>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer" role="contentinfo">
+    <div class="container">
+      <div class="footer-content">
+        <p>For research and educational use</p>
+        <p>UML ITS Research</p>
+      </div>
+    </div>
+  </footer>
 
 <script>
+  // Preserve existing functionality for now - will be enhanced in later tasks
   function setQuestion(text) {
-    document.getElementById("q").value = text;
-    document.getElementById("q").focus();
+    document.getElementById("queryInput").value = text;
+    document.getElementById("queryInput").focus();
   }
 
+  // Add click handlers for sample questions
+  document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.question-card').forEach(button => {
+      button.addEventListener('click', (e) => {
+        const questionText = e.currentTarget.dataset.question;
+        const chatInput = document.getElementById('queryInput');
+        
+        // Populate the input field with the full question text
+        chatInput.value = questionText;
+        
+        // Focus the input field for immediate editing if needed
+        chatInput.focus();
+      });
+    });
+  });
+
   async function ask() {
-    const query = document.getElementById("q").value.trim();
-    const out = document.getElementById("answer");
-    const btn = document.getElementById("askBtn");
+    const query = document.getElementById("queryInput").value.trim();
+    const chatHistory = document.getElementById("chatHistory");
+    const btn = document.getElementById("sendButton");
 
     if (!query) {
-      out.textContent = "Please enter a question.";
+      // Add error message to chat history instead of using the old pre element
+      const errorMsg = document.createElement('div');
+      errorMsg.className = 'message error-message';
+      errorMsg.textContent = "Please enter a question.";
+      chatHistory.appendChild(errorMsg);
       return;
     }
 
     btn.disabled = true;
-    out.textContent = "Thinking...";
+    
+    // Add user message to chat history
+    const userMsg = document.createElement('div');
+    userMsg.className = 'message user-message';
+    userMsg.textContent = query;
+    chatHistory.appendChild(userMsg);
+    
+    // Add thinking message
+    const thinkingMsg = document.createElement('div');
+    thinkingMsg.className = 'message miso-message thinking';
+    thinkingMsg.textContent = "Thinking...";
+    chatHistory.appendChild(thinkingMsg);
+    
+    // Scroll to bottom
+    chatHistory.scrollTop = chatHistory.scrollHeight;
 
     try {
       const res = await fetch(
@@ -105,27 +878,51 @@ http://localhost:8000
 
       const data = await res.json();
 
-      if (!res.ok) {
-        out.textContent = "Error: " + (data.error || res.status);
-        return;
-      }
+      // Remove thinking message
+      chatHistory.removeChild(thinkingMsg);
 
-      out.textContent = data.answer || "No answer returned.";
+      // Add MISO response
+      const misoMsg = document.createElement('div');
+      misoMsg.className = 'message miso-message';
+      
+      if (!res.ok) {
+        misoMsg.className += ' error-message';
+        misoMsg.textContent = "Error: " + (data.error || res.status);
+      } else {
+        misoMsg.textContent = data.answer || "No answer returned.";
+      }
+      
+      chatHistory.appendChild(misoMsg);
 
     } catch (err) {
-      out.textContent = "Network error: " + err.message;
+      // Remove thinking message
+      if (chatHistory.contains(thinkingMsg)) {
+        chatHistory.removeChild(thinkingMsg);
+      }
+      
+      // Add error message
+      const errorMsg = document.createElement('div');
+      errorMsg.className = 'message miso-message error-message';
+      errorMsg.textContent = "Network error: " + err.message;
+      chatHistory.appendChild(errorMsg);
     } finally {
       btn.disabled = false;
+      // Clear input and scroll to bottom
+      document.getElementById("queryInput").value = "";
+      chatHistory.scrollTop = chatHistory.scrollHeight;
     }
   }
 
   // Enter to submit, Shift+Enter for newline
-  document.getElementById("q").addEventListener("keydown", function (e) {
+  document.getElementById("queryInput").addEventListener("keydown", function (e) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       ask();
     }
   });
+
+  // Add click handler for send button
+  document.getElementById("sendButton").addEventListener("click", ask);
 </script>
 
 </body>
