@@ -1,0 +1,14 @@
+{
+  "filename": "mutcd-11th-edition-known-errors-2025-01-24.pdf",
+  "document_family": "MUTCD",
+  "edition": "11th Edition",
+  "document_type": "Errata",
+  "document_subtype": "Known Errors",
+  "publisher": "FHWA",
+  "publication_date": "2025-01-24",
+  "authority_level": "Informational",
+  "normative_status": "Non-normative",
+  "supersedes_text": false,
+  "applies_to_parts": [1, 2],
+  "description": "FHWA-published list of known errors in the MUTCD 11th Edition. Provided for informational purposes only and does not constitute official changes to the MUTCD."
+}

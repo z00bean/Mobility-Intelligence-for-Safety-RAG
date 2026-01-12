@@ -1,0 +1,29 @@
+{
+  "filename": "Editorial_Update_AC_107-2A.pdf",
+  "document_family": "FAA Advisory Circulars",
+  "document_title": "Advisory Circular 107-2A – Small Unmanned Aircraft Systems",
+  "document_type": "Advisory Circular",
+  "document_subtype": "Guidance",
+  "publisher": "Federal Aviation Administration",
+  "issuing_agency": "U.S. Department of Transportation",
+  "advisory_circular": "AC 107-2A",
+  "authority_level": "Guidance",
+  "normative_status": "Non-binding",
+  "supports_regulation": "14 CFR Part 107",
+  "applies_to_modes": [
+    "Unmanned Aircraft Systems",
+    "Commercial Drone Operations"
+  ],
+  "applicable_stakeholders": [
+    "Remote Pilots",
+    "UAS Operators",
+    "Training Providers",
+    "Regulators"
+  ],
+  "related_domains": [
+    "UAS Compliance",
+    "Aviation Safety",
+    "Operational Guidance"
+  ],
+  "description": "FAA Advisory Circular providing explanatory guidance, examples, and recommended practices for complying with 14 CFR Part 107. This document clarifies regulatory intent but does not introduce new regulatory requirements."
+}

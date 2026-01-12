@@ -1,0 +1,16 @@
+{
+  "filename": "mutcd-faq.pdf",
+  "document_family": "MUTCD",
+  "edition": "11th Edition",
+  "document_type": "FAQ",
+  "title": "MUTCD Frequently Asked Questions – General",
+  "publisher": "FHWA",
+  "scope": "Applies across all parts of the MUTCD",
+  "topics": [
+    "interpretation",
+    "applicability",
+    "compliance",
+    "standardization",
+    "implementation"
+  ]
+}

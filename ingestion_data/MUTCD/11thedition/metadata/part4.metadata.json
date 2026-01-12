@@ -1,0 +1,14 @@
+{
+  "document_family": "MUTCD",
+  "edition": "11th Edition",
+  "part_number": 4,
+  "part_title": "Highway Traffic Signals",
+  "filename": "part4.pdf",
+  "topics": [
+    "signal warrants",
+    "phasing",
+    "pedestrian signals",
+    "bicycle signals",
+    "signal coordination"
+  ]
+}
