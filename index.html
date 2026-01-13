@@ -490,6 +490,7 @@
 
     .tag-text {
       display: inline-block;
+      position: relative; /* Needed for tooltip arrow positioning */
     }
 
     /* Update selected state to work with checkboxes */
@@ -541,7 +542,7 @@
     .disabled-tag::after {
       content: attr(data-tooltip);
       position: absolute;
-      bottom: -35px;
+      top: calc(100% + 8px); /* Position below the tag with small gap */
       left: 50%;
       transform: translateX(-50%);
       background: var(--color-text-primary);
@@ -560,11 +561,11 @@
       line-height: 1.3;
     }
 
-    /* Tooltip arrow */
-    .disabled-tag::before {
+    /* Tooltip arrow pointing up from bottom border of tag */
+    .disabled-tag .tag-text::after {
       content: "";
       position: absolute;
-      bottom: -8px;
+      top: 100%; /* Position at bottom border of tag */
       left: 50%;
       transform: translateX(-50%);
       width: 0;
@@ -579,7 +580,7 @@
     }
 
     .disabled-tag:hover::after,
-    .disabled-tag:hover::before {
+    .disabled-tag:hover .tag-text::after {
       opacity: 1;
       visibility: visible;
     }
@@ -921,6 +922,77 @@
       margin-top: 4px;
       font-style: normal;
       opacity: 0.7;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .info-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid #999;
+      font-size: 9px;
+      font-weight: bold;
+      cursor: help;
+      position: relative;
+      font-style: normal;
+    }
+
+    .info-icon:hover {
+      background-color: #f0f0f0;
+      border-color: #666;
+    }
+
+    /* Metrics tooltip */
+    .info-icon::after {
+      content: attr(data-metrics);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-text-primary);
+      color: white;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-sm);
+      font-size: 10px;
+      white-space: pre-line;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-md);
+      min-width: 280px;
+      text-align: left;
+      line-height: 1.4;
+      font-weight: normal;
+    }
+
+    /* Metrics tooltip arrow */
+    .info-icon::before {
+      content: "";
+      position: absolute;
+      bottom: calc(100% + 2px);
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-top: 6px solid var(--color-text-primary);
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-fast);
+    }
+
+    .info-icon:hover::after,
+    .info-icon:hover::before {
+      opacity: 1;
+      visibility: visible;
     }
 
     @keyframes dots {
@@ -1347,7 +1419,7 @@
                 <input type="checkbox" name="datasource" value="av-policy" disabled>
                 <span class="tag-text">AV Policy</span>
               </label>
-              <label class="tag disabled-tag" data-tooltip="Manual on Uniform Traffic Control Devices for Streets and Highways">
+              <label class="tag disabled-tag" data-tooltip="Manual on Uniform Traffic Control Devices">
                 <input type="checkbox" name="datasource" value="mutcd" disabled>
                 <span class="tag-text">MUTCD</span>
               </label>
@@ -1387,12 +1459,6 @@
       <section class="sample-questions" aria-labelledby="sample-questions-heading">
         <h3 id="sample-questions-heading">Representative Queries</h3>
         <div class="question-grid" role="list" aria-label="Sample questions">
-          <button class="question-card" role="listitem" data-question="How does DOE define 'system-level' impacts of automated vehicles?" aria-describedby="question-help">
-            <span class="question-text">How does DOE define "system-level" impacts of automated vehicles?</span>
-          </button>
-          <button class="question-card" role="listitem" data-question="Which vehicle convenience technologies depend on spectrum-based communications, and which radar band is reserved for vehicular use?" aria-describedby="question-help">
-            <span class="question-text">Which vehicle convenience technologies depend on spectrum-based communications?</span>
-          </button>
           <button class="question-card" role="listitem" data-question="Why is computing efficiency a critical barrier to SAE Level 5 AV deployment?" aria-describedby="question-help">
             <span class="question-text">Why is computing efficiency a critical barrier to SAE Level 5 AV deployment?</span>
           </button>
@@ -1408,14 +1474,20 @@
         </div>
         
         <details class="additional-questions">
-          <summary aria-expanded="false" aria-controls="additional-questions-list">More example research questions</summary>
+          <summary aria-expanded="false" aria-controls="additional-questions-list">More example questions</summary>
           <div class="question-list" id="additional-questions-list" role="list" aria-label="Additional sample questions">
             <button class="question-card" role="listitem" data-question="How could AV manufacturers align product roadmaps with DOE energy priorities?" aria-describedby="question-help">
               <span class="question-text">How could AV manufacturers align with DOE energy priorities?</span>
             </button>
+          <button class="question-card" role="listitem" data-question="How does DOE define 'system-level' impacts of automated vehicles?" aria-describedby="question-help">
+            <span class="question-text">How does DOE define "system-level" impacts of automated vehicles?</span>
+          </button>
             <button class="question-card" role="listitem" data-question="How can changes in 3GPP specifications affect transportation systems, and which 5G vehicle use cases are targeted?" aria-describedby="question-help">
               <span class="question-text">How do 3GPP specification changes affect transportation systems?</span>
             </button>
+          <button class="question-card" role="listitem" data-question="Which vehicle convenience technologies depend on spectrum-based communications, and which radar band is reserved for vehicular use?" aria-describedby="question-help">
+            <span class="question-text">Which vehicle convenience technologies depend on spectrum-based communications?</span>
+          </button>
           </div>
         </details>
         
@@ -1577,13 +1649,24 @@
 
       const data = await res.json();
       
-      // Calculate response time
+      // Calculate response time in seconds with one decimal place
       const endTime = performance.now();
-      const responseTime = Math.round(endTime - startTime);
+      const responseTimeMs = endTime - startTime;
+      const responseTimeSec = (responseTimeMs / 1000).toFixed(1);
 
       // Remove thinking message
       clearInterval(thinkingMsg.dotInterval);
       chatHistory.removeChild(thinkingMsg);
+
+      // Prepare metrics tooltip content
+      const metricsTooltip = `Retrieval time: ${responseTimeSec}s
+Documents retrieved: -
+Sources used: -
+Answer completeness: -
+Confidence level: -
+Evidence density: -
+Citation depth: -
+Cross-reference coeff.: -`;
 
       // Add MISO response
       const misoMsg = document.createElement('div');
@@ -1602,10 +1685,10 @@
           errorMessage = data.error || `Error ${res.status}`;
         }
         
-        misoMsg.innerHTML = `${errorMessage}<div class="response-time">${responseTime}ms</div>`;
+        misoMsg.innerHTML = `${errorMessage}<div class="response-time">Response time: ${responseTimeSec}s <span class="info-icon" data-metrics="${metricsTooltip.replace(/"/g, '&quot;')}">i</span></div>`;
       } else {
         const answer = data.answer || "No answer returned.";
-        misoMsg.innerHTML = `${answer}<div class="response-time">${responseTime}ms</div>`;
+        misoMsg.innerHTML = `${answer}<div class="response-time">Response time: ${responseTimeSec}s <span class="info-icon" data-metrics="${metricsTooltip.replace(/"/g, '&quot;')}">i</span></div>`;
       }
       
       chatHistory.appendChild(misoMsg);
@@ -1623,14 +1706,21 @@
         chatHistory.removeChild(thinkingMsg);
       }
       
-      // Calculate response time for error case
+      // Calculate response time in seconds with one decimal place
       const endTime = performance.now();
-      const responseTime = Math.round(endTime - startTime);
+      const responseTimeMs = endTime - startTime;
+      const responseTimeSec = (responseTimeMs / 1000).toFixed(1);
+      
+      // Prepare metrics tooltip content for error case
+      const metricsTooltip = `Retrieval time: ${responseTimeSec}s
+Reason for incompleteness: -
+
+(Implemented in local version, testing underway. Will be shared/made public after paper is published)`;
       
       // Add error message
       const errorMsg = document.createElement('div');
       errorMsg.className = 'message miso-message error-message';
-      errorMsg.innerHTML = `Network error: ${err.message}<div class="response-time">${responseTime}ms</div>`;
+      errorMsg.innerHTML = `Network error: ${err.message}<div class="response-time">Response time: ${responseTimeSec}s <span class="info-icon" data-metrics="${metricsTooltip.replace(/"/g, '&quot;')}">i</span></div>`;
       chatHistory.appendChild(errorMsg);
       
       // Save chat history to sessionStorage
