@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="MISO - Mobility Intelligence for Safety & Operations. Standards-grounded AI for transportation safety research and education.">
+  <meta name="keywords" content="transportation, safety, MUTCD, FHWA, FAA, OSHA, autonomous vehicles, mobility intelligence">
+  <meta name="author" content="UML ITS Research">
   <title>MISO — Mobility Intelligence for Safety & Operations</title>
   
   <!-- CSS Reset via CDN -->
@@ -18,9 +20,9 @@
     /* CSS Custom Properties for Light Pastel Purple Theme */
     :root {
       /* Primary Colors */
-      --color-primary: #E8E2F0;           /* Light pastel purple */
+      --color-primary: #cba4ff;           /* Light pastel purple */
       --color-primary-gray: #e8e8e8;
-      --color-primary-light: #F4F1F7;     /* Lighter variant */
+      --color-primary-light: #f4e9ff;     /* Lighter variant */
       --color-primary-dark: #D4C5E0;      /* Darker variant for accents */
       
       /* Background Colors */
@@ -81,8 +83,8 @@
       
       /* Transitions */
       --transition-fast: 150ms ease-in-out;
-      --transition-normal: 250ms ease-in-out;
-      --transition-slow: 350ms ease-in-out;
+      --transition-normal: 200ms ease-in-out;
+      --transition-slow: 200ms ease-in-out;
       
       /* Responsive Breakpoints */
       --breakpoint-mobile: 768px;
@@ -172,22 +174,27 @@
       cursor: pointer;
       border: none;
       border-radius: var(--radius-md);
-      padding: var(--spacing-sm) var(--spacing-md);
+      padding: var(--spacing-md) var(--spacing-lg);
       font-weight: var(--font-weight-medium);
       transition: all var(--transition-fast);
       background-color: var(--color-interactive);
       color: var(--color-text-primary);
+      min-height: 44px; /* Touch-friendly minimum size */
+      min-width: 44px;
+      position: relative;
+      overflow: hidden;
     }
 
     button:hover:not(:disabled) {
       background-color: var(--color-interactive-hover);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
     }
 
     button:active:not(:disabled) {
       background-color: var(--color-interactive-active);
       transform: translateY(0);
+      box-shadow: var(--shadow-md);
     }
 
     button:disabled {
@@ -196,22 +203,53 @@
       transform: none;
     }
 
+    /* Button ripple effect for touch feedback */
+    button::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.3);
+      transform: translate(-50%, -50%);
+      transition: width 0.2s, height 0.2s;
+    }
+
+    button:active::after {
+      width: 200px;
+      height: 200px;
+    }
+
     /* Links */
     a {
       color: var(--color-interactive);
       text-decoration: none;
-      transition: color var(--transition-fast);
+      transition: all var(--transition-fast);
+      cursor: pointer;
+      min-height: 44px; /* Touch-friendly minimum size */
+      display: inline-flex;
+      align-items: center;
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--radius-sm);
     }
 
     a:hover {
       color: var(--color-interactive-hover);
       text-decoration: underline;
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    a:active {
+      transform: translateY(0);
     }
 
     /* Responsive Design Foundation */
     .container {
       width: 100%;
-      max-width: 1200px;
+      max-width: 1400px;
       margin: 0 auto;
       padding: 0 var(--spacing-md);
     }
@@ -237,11 +275,32 @@
     }
 
     .header-content {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      grid-template-rows: auto;
       gap: var(--spacing-md);
       align-items: center;
-      text-align: center;
+    }
+
+    .branding {
+      grid-column: 1;
+      grid-row: 1;
+      text-align: left;
+    }
+
+    .nav-section {
+      grid-column: 2;
+      grid-row: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+
+    .header-nav {
+      display: flex;
+      gap: var(--spacing-lg);
+      align-items: center;
     }
 
     .branding h1 {
@@ -274,14 +333,30 @@
       transition: all var(--transition-fast);
       border: 1px solid var(--color-border-light);
       position: relative;
+      min-height: 36px; /* Reduced height */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--font-size-sm);
     }
 
     .header-nav a:hover {
       background-color: var(--color-primary-light);
-      transform: translateY(-1px);
-      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
       text-decoration: none;
       border-color: var(--color-interactive);
+    }
+
+    .header-nav a:active {
+      transform: translateY(0);
+      box-shadow: var(--shadow-md);
+    }
+
+    .preview-mode-notice {
+      font-size: var(--font-size-sm);
+      color: var(--color-text-secondary);
+      font-weight: var(--font-weight-medium);
     }
 
     /* GitHub link specific styling */
@@ -303,13 +378,32 @@
       transform: translate(2px, -2px);
     }
 
+    /* Local login link specific styling */
+    .local-login {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+    }
+
+    .external-arrow {
+      font-size: var(--font-size-sm);
+      opacity: 0.7;
+      transition: all var(--transition-fast);
+    }
+
+    .local-login:hover .external-arrow,
+    .github-link:hover::after {
+      opacity: 1;
+      transform: translate(2px, -2px);
+    }
+
     .local-login {
       position: relative;
     }
 
     /* Enhanced tooltip with better positioning and animation */
     .local-login::after {
-      content: "Requires UML network access";
+      content: "Not available on Eduroam. Lab network only.";
       position: absolute;
       bottom: -40px;
       left: 50%;
@@ -355,9 +449,57 @@
     .domain-tags {
       display: flex;
       flex-wrap: wrap;
-      justify-content: center;
+      justify-content: center; /* Center align the tags */
       gap: var(--spacing-sm);
       margin-bottom: var(--spacing-lg);
+    }
+
+    .domain-tags-section {
+      margin-bottom: var(--spacing-lg);
+    }
+
+    .domain-tags-label {
+      font-size: var(--font-size-sm);
+      font-weight: var(--font-weight-semibold);
+      color: var(--color-text-secondary);
+      margin-bottom: var(--spacing-md);
+      text-align: center; /* Center align the label */
+    }
+
+    .selected-tag {
+      border: 2px solid #666 !important; /* Darker border for selected state */
+      background-color: #e8e8e8 !important; /* Slightly darker background */
+      font-weight: var(--font-weight-semibold);
+    }
+
+    /* Hide the actual checkboxes */
+    .domain-tags input[type="checkbox"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    /* Make labels look like the original tags */
+    .domain-tags label.tag {
+      cursor: not-allowed; /* Keep disabled cursor */
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .tag-text {
+      display: inline-block;
+    }
+
+    /* Update selected state to work with checkboxes */
+    .domain-tags input[type="checkbox"]:checked + .tag-text {
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .domain-tags label:has(input[type="checkbox"]:checked) {
+      border: 2px solid #666 !important;
+      background-color: #e8e8e8 !important;
     }
 
     .tag {
@@ -370,12 +512,84 @@
       border: 1px solid var(--color-border-accent);
     }
 
+    .disabled-tag {
+      background-color: #f5f5f5;
+      color: #999;
+      border: 1px solid #ddd;
+      cursor: not-allowed;
+      opacity: 0.7;
+      position: relative;
+      padding-left: calc(var(--spacing-md) + 16px); /* Make room for lock icon */
+    }
+
+    .disabled-tag::before {
+      content: "🔒";
+      position: absolute;
+      left: var(--spacing-xs);
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 10px;
+      opacity: 0.8;
+    }
+
+    .disabled-tag:hover {
+      background-color: #f0f0f0;
+      border-color: #ccc;
+    }
+
+    /* Custom tooltip for disabled tags */
+    .disabled-tag::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: -35px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--color-text-primary);
+      color: white;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      white-space: nowrap;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-fast);
+      box-shadow: var(--shadow-md);
+      max-width: 250px;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    /* Tooltip arrow */
+    .disabled-tag::before {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent;
+      border-right: 5px solid transparent;
+      border-bottom: 5px solid var(--color-text-primary);
+      z-index: 1001;
+      opacity: 0;
+      visibility: hidden;
+      transition: all var(--transition-fast);
+    }
+
+    .disabled-tag:hover::after,
+    .disabled-tag:hover::before {
+      opacity: 1;
+      visibility: visible;
+    }
+
     /* Sample Questions Styles */
     .sample-questions {
       padding: var(--spacing-xl) 0;
     }
 
-    .sample-questions h2 {
+    .sample-questions h3 {
       text-align: center;
       margin-bottom: var(--spacing-xl);
       color: var(--color-text-primary);
@@ -383,7 +597,7 @@
 
     .question-grid {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 0.8fr;
       gap: var(--spacing-md);
       margin-bottom: var(--spacing-xl);
     }
@@ -392,22 +606,44 @@
       background: white;
       border: 1px solid var(--color-border-light);
       border-radius: var(--radius-md);
-      padding: var(--spacing-md);
+      padding: var(--spacing-lg);
       text-align: left;
       cursor: pointer;
       transition: all var(--transition-fast);
       box-shadow: var(--shadow-sm);
+      min-height: 44px; /* Touch-friendly size */
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
     }
 
     .question-card:hover {
       border-color: var(--color-interactive);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+      transform: translateY(-3px);
       background-color: var(--color-bg-accent);
     }
 
     .question-card:active {
-      transform: translateY(0);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-md);
+    }
+
+    /* Touch feedback animation */
+    .question-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: left 0.2s;
+    }
+
+    .question-card:hover::before {
+      left: 100%;
     }
 
     .question-text {
@@ -423,17 +659,48 @@
 
     .additional-questions summary {
       cursor: pointer;
-      padding: var(--spacing-md);
+      padding: var(--spacing-lg);
       background-color: var(--color-bg-accent);
       border-radius: var(--radius-md);
       border: 1px solid var(--color-border-light);
       font-weight: var(--font-weight-medium);
       color: var(--color-text-primary);
       transition: all var(--transition-fast);
+      min-height: 44px; /* Touch-friendly size */
+      display: flex;
+      align-items: center;
+      position: relative;
     }
 
     .additional-questions summary:hover {
       background-color: var(--color-primary);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .additional-questions summary:active {
+      transform: translateY(0);
+    }
+
+    /* Add expand/collapse animation */
+    .additional-questions[open] summary {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .additional-questions .question-list {
+      animation: slideDown 0.2s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .question-list {
@@ -456,7 +723,7 @@
 
     .chat-history {
       min-height: 300px;
-      max-height: 500px;
+      max-height: 600px;
       overflow-y: auto;
       border: 1px solid var(--color-border-light);
       border-radius: var(--radius-md);
@@ -475,6 +742,14 @@
       box-shadow: var(--shadow-sm);
     }
 
+    .input-error {
+      font-size: 12px;
+      color: #d32f2f;
+      margin-bottom: var(--spacing-sm);
+      padding: var(--spacing-xs) 0;
+      font-weight: var(--font-weight-normal);
+    }
+
     .input-group {
       display: flex;
       gap: var(--spacing-md);
@@ -482,25 +757,31 @@
     }
 
     #queryInput {
-      flex: 1;
+      flex: 2;
       border: 1px solid var(--color-border-medium);
       border-radius: var(--radius-md);
-      padding: var(--spacing-md);
+      padding: var(--spacing-lg);
       font-family: inherit;
       font-size: var(--font-size-base);
       line-height: var(--line-height-normal);
       resize: vertical;
       min-height: 80px;
-      transition: border-color var(--transition-fast);
+      transition: all var(--transition-fast);
     }
 
     #queryInput:focus {
       border-color: var(--color-interactive);
       outline: none;
+      box-shadow: 0 0 0 3px rgba(212, 197, 224, 0.3);
+      transform: scale(1.01);
+    }
+
+    #queryInput:hover {
+      border-color: var(--color-interactive-hover);
     }
 
     .send-btn {
-      background-color: var(--color-interactive);
+      background-color: #8d5cb5; 
       color: white;
       border: none;
       border-radius: var(--radius-md);
@@ -512,11 +793,20 @@
       align-items: center;
       gap: var(--spacing-sm);
       min-height: 80px;
+      min-width: 60px;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
     }
 
     .send-btn:hover:not(:disabled) {
-      background-color: var(--color-interactive-hover);
-      transform: translateY(-1px);
+      background-color: #703a9c;
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .send-btn:active:not(:disabled) {
+      transform: translateY(0) scale(1.02);
       box-shadow: var(--shadow-md);
     }
 
@@ -526,13 +816,63 @@
       transform: none;
     }
 
+    /* Send button pulse animation when enabled */
+    .send-btn:not(:disabled) {
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% {
+        box-shadow: 0 0 0 0 rgba(212, 197, 224, 0.7);
+      }
+      70% {
+        box-shadow: 0 0 0 10px rgba(212, 197, 224, 0);
+      }
+      100% {
+        box-shadow: 0 0 0 0 rgba(212, 197, 224, 0);
+      }
+    }
+
     .btn-icon {
       font-size: var(--font-size-lg);
       transition: transform var(--transition-fast);
     }
 
     .send-btn:hover .btn-icon {
+      transform: translateX(4px);
+    }
+
+    .send-btn:active .btn-icon {
       transform: translateX(2px);
+    }
+
+    .clear-chat-container {
+      text-align: right;
+      margin-top: var(--spacing-xs);
+    }
+
+    .clear-chat-btn {
+      background: none;
+      border: none;
+      color: var(--color-text-muted);
+      font-size: var(--font-size-sm);
+      cursor: pointer;
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--radius-sm);
+      transition: all var(--transition-fast);
+      min-height: auto;
+      min-width: auto;
+    }
+
+    .clear-chat-btn:hover {
+      color: var(--color-text-secondary);
+      background-color: var(--color-bg-accent);
+      transform: none;
+      box-shadow: none;
+    }
+
+    .clear-chat-btn:active {
+      transform: scale(0.95);
     }
 
     /* Message Styles */
@@ -545,16 +885,17 @@
     }
 
     .user-message {
-      background-color: var(--color-primary-light);
-      border: 1px solid var(--color-primary);
+      background-color: #e8e8e8; /* Slightly darker gray than MISO messages */
+      border: 1px solid #d0d0d0; /* Darker gray border */
       margin-left: auto;
       text-align: right;
     }
 
     .miso-message {
-      background-color: var(--color-bg-accent);
+      background-color: #f5f5f5; /* Light gray background */
       border: 1px solid var(--color-border-light);
       margin-right: auto;
+      color: #2d2d2d; /* Light gray text color */
     }
 
     .error-message {
@@ -566,6 +907,32 @@
     .thinking {
       font-style: italic;
       opacity: 0.8;
+    }
+
+    .dots {
+      display: inline-block;
+      min-width: 15px;
+      text-align: left;
+    }
+
+    .response-time {
+      font-size: 10px;
+      color: #999;
+      margin-top: 4px;
+      font-style: normal;
+      opacity: 0.7;
+    }
+
+    @keyframes dots {
+      0%, 20% {
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 0;
+      }
     }
 
     /* Footer Styles */
@@ -586,28 +953,92 @@
       margin: var(--spacing-xs) 0;
     }
 
+    .footer-disclaimer {
+      margin-bottom: var(--spacing-lg);
+      padding-bottom: var(--spacing-lg);
+      border-bottom: 1px solid var(--color-border-light);
+    }
+
+    .footer-disclaimer p {
+      margin: var(--spacing-sm) 0;
+      line-height: var(--line-height-normal);
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .footer-disclaimer strong {
+      color: var(--color-text-secondary);
+      font-weight: var(--font-weight-semibold);
+    }
+
+    .footer-credits {
+      margin-top: var(--spacing-md);
+    }
+
+    .footer-credits p {
+      margin: var(--spacing-xs) 0;
+    }
+
     /* Responsive Breakpoints Implementation - Two-column layout */
     
     /* Mobile Layout (<768px) - Single column stacked */
     @media (max-width: 767px) {
       .header-content {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto;
         text-align: center;
+        gap: var(--spacing-sm);
+      }
+      
+      .branding {
+        grid-column: 1;
+        grid-row: 1;
+        text-align: center;
+      }
+      
+      .branding .tagline {
+        display: none; /* Hide tagline on mobile */
+      }
+      
+      .nav-section {
+        grid-column: 1;
+        grid-row: 2;
+        justify-self: center;
+        gap: var(--spacing-xs);
+      }
+      
+      .header-nav {
+        flex-direction: row; /* Side by side instead of column */
+        gap: var(--spacing-sm);
+        width: auto;
+      }
+      
+      .header-nav a {
+        width: auto;
+        text-align: center;
+        justify-content: center;
+        min-height: 28px; /* Even smaller height */
+        padding: 2px 6px; /* Much smaller padding */
+        font-size: 11px; /* Even smaller font */
+        margin: 0; /* Remove any margin */
+      }
+      
+      .preview-mode-notice {
+        font-size: 11px; /* Smaller preview notice */
       }
       
       .branding h1 {
         font-size: var(--font-size-lg);
-      }
-      
-      .header-nav {
-        flex-direction: column;
-        gap: var(--spacing-sm);
-        width: 100%;
+        margin-bottom: var(--spacing-xs); /* Reduce margin since tagline is hidden */
       }
       
       .header-nav a {
         width: 100%;
         text-align: center;
         justify-content: center;
+        min-height: 48px; /* Larger touch targets on mobile */
+        padding: var(--spacing-md) var(--spacing-lg);
       }
 
       /* Adjust tooltip positioning for mobile */
@@ -619,34 +1050,65 @@
       }
       
       .question-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1.4fr;
+        gap: var(--spacing-lg);
+      }
+      
+      .question-card {
+        min-height: 60px; /* Larger touch targets on mobile */
+        padding: var(--spacing-lg) var(--spacing-xl);
       }
       
       .domain-tags {
         justify-content: center;
+        gap: var(--spacing-md);
+      }
+      
+      .tag {
+        padding: var(--spacing-sm) var(--spacing-lg);
+        min-height: 32px;
+        display: flex;
+        align-items: center;
       }
       
       .input-group {
         flex-direction: column;
         align-items: stretch;
+        gap: var(--spacing-lg);
       }
       
       .send-btn {
-        min-height: 50px;
+        min-height: 60px;
         justify-content: center;
+        width: 100%;
       }
       
       .message {
         max-width: 95%;
+      }
+
+      /* Enhanced touch feedback for mobile */
+      button:active,
+      .question-card:active,
+      .header-nav a:active {
+        transform: scale(0.98);
+      }
+
+      /* Larger tap targets for mobile */
+      .additional-questions summary {
+        min-height: 56px;
+        padding: var(--spacing-lg) var(--spacing-xl);
       }
     }
 
     /* Tablet Layout (768px-1199px) - Two column or adapted layout */
     @media (min-width: 768px) and (max-width: 1199px) {
       .header-content {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto;
+      }
+      
+      .branding {
         text-align: left;
       }
       
@@ -666,9 +1128,11 @@
     /* Desktop Layout (1200px+) - Two-column layout */
     @media (min-width: 1200px) {
       .header-content {
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto;
+      }
+      
+      .branding {
         text-align: left;
       }
       
@@ -682,7 +1146,7 @@
       
       .main-content .container {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1.4fr 0.6fr;
         gap: var(--spacing-xl);
         align-items: start;
       }
@@ -735,6 +1199,82 @@
     .mb-md { margin-bottom: var(--spacing-md); }
     .mb-lg { margin-bottom: var(--spacing-lg); }
     .mb-xl { margin-bottom: var(--spacing-xl); }
+
+    /* Touch-friendly enhancements */
+    @media (hover: none) and (pointer: coarse) {
+      /* Touch device specific styles */
+      button, .question-card, summary {
+        min-height: 48px;
+        padding: var(--spacing-md) var(--spacing-lg);
+      }
+      
+      /* Header nav buttons remain small on mobile touch devices */
+      .header-nav a {
+        min-height: 28px;
+        padding: 2px 6px;
+      }
+      
+      /* Remove hover effects on touch devices */
+      button:hover, .question-card:hover, .header-nav a:hover {
+        transform: none;
+      }
+      
+      /* Enhanced active states for touch */
+      button:active, .question-card:active, .header-nav a:active {
+        transform: scale(0.95);
+        transition: transform 0.1s;
+      }
+    }
+
+    /* Smooth scrolling for all elements */
+    * {
+      scroll-behavior: smooth;
+    }
+
+    /* Focus visible for keyboard navigation */
+    *:focus-visible {
+      outline: 3px solid var(--color-interactive);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+    
+    /* Enhanced focus styles for interactive elements */
+    button:focus-visible,
+    .question-card:focus-visible,
+    .header-nav a:focus-visible,
+    summary:focus-visible {
+      outline: 3px solid var(--color-interactive);
+      outline-offset: 3px;
+      box-shadow: 0 0 0 6px rgba(212, 197, 224, 0.3);
+    }
+    
+    /* High contrast mode support */
+    @media (prefers-contrast: high) {
+      :root {
+        --color-text-primary: #000000;
+        --color-text-secondary: #333333;
+        --color-border-light: #666666;
+        --color-border-medium: #333333;
+        --color-interactive: #0066CC;
+        --color-interactive-hover: #0052A3;
+      }
+      
+      button, .question-card, .header-nav a {
+        border: 2px solid var(--color-text-primary);
+      }
+    }
+
+    /* Reduce motion for users who prefer it */
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
   </style>
 </head>
 
@@ -747,16 +1287,25 @@
     <div class="container">
       <div class="header-content">
         <div class="branding">
-          <h1>MISO — Mobility Intelligence for Safety & Operations</h1>
+          <h1>MISO: Mobility Intelligence for Safety & Operations</h1>
           <p class="tagline">Standards-grounded AI for transportation safety research and education</p>
         </div>
-        <nav class="header-nav" role="navigation" aria-label="Main navigation">
-          <a href="http://172.14.224.19:5000" class="local-login" title="Access local MISO instance (requires UML network)">Local Login</a>
-          <a href="https://github.com/z00bean/Mobility-Intelligence-for-Safety-RAG/" target="_blank" rel="noopener noreferrer" class="github-link">
-            GitHub
-            <span class="sr-only">(opens in new tab)</span>
-          </a>
-        </nav>
+        <div class="nav-section">
+          <div class="preview-mode-notice">
+            🔒 Public Preview
+          </div>
+          <nav class="header-nav" role="navigation" aria-label="Main navigation">
+            <a href="http://172.14.224.19:5000" target="_blank" rel="noopener noreferrer" class="local-login" aria-describedby="local-login-help">
+              Login
+              <span class="external-arrow">↗</span>
+              <span class="sr-only">(opens in new tab)</span>
+            </a>
+            <a href="https://github.com/z00bean/Mobility-Intelligence-for-Safety-RAG/" target="_blank" rel="noopener noreferrer" class="github-link" aria-describedby="github-link-help">
+              GitHub
+              <span class="sr-only">(opens in new tab)</span>
+            </a>
+          </nav>
+        </div>
       </div>
     </div>
   </header>
@@ -770,13 +1319,40 @@
         <h2 id="chat-heading" class="sr-only">Chat with MISO</h2>
         
         <!-- Domain Tags moved above chat -->
-        <div class="domain-tags" role="list" aria-label="Covered domains">
-          <span class="tag" role="listitem">USDOT</span>
-          <span class="tag" role="listitem">FHWA</span>
-          <span class="tag" role="listitem">FAA</span>
-          <span class="tag" role="listitem">OSHA</span>
-          <span class="tag" role="listitem">AV Policy</span>
-          <span class="tag" role="listitem">MUTCD</span>
+        <div class="domain-tags-section">
+          <div class="domain-tags-label">Data Sources (Source selection &amp; citation view are available on the internal version)</div>
+          <form class="domain-tags-form">
+            <div class="domain-tags" role="group" aria-label="Covered domains">
+              <label class="tag disabled-tag selected-tag" data-tooltip="Select all data sources">
+                <input type="checkbox" name="datasource" value="all" checked disabled>
+                <span class="tag-text"><b>All</b></span>
+              </label>
+              <label class="tag disabled-tag" data-tooltip="U.S. Department of Transportation">
+                <input type="checkbox" name="datasource" value="usdot" disabled>
+                <span class="tag-text">USDOT</span>
+              </label>
+              <label class="tag disabled-tag" data-tooltip="Federal Highway Administration">
+                <input type="checkbox" name="datasource" value="fhwa" disabled>
+                <span class="tag-text">FHWA</span>
+              </label>
+              <label class="tag disabled-tag" data-tooltip="Federal Aviation Administration">
+                <input type="checkbox" name="datasource" value="faa" disabled>
+                <span class="tag-text">FAA</span>
+              </label>
+              <label class="tag disabled-tag" data-tooltip="Occupational Safety and Health Administration">
+                <input type="checkbox" name="datasource" value="osha" disabled>
+                <span class="tag-text">OSHA</span>
+              </label>
+              <label class="tag disabled-tag" data-tooltip="USDOT AV, FHWA AV">
+                <input type="checkbox" name="datasource" value="av-policy" disabled>
+                <span class="tag-text">AV Policy</span>
+              </label>
+              <label class="tag disabled-tag" data-tooltip="Manual on Uniform Traffic Control Devices for Streets and Highways">
+                <input type="checkbox" name="datasource" value="mutcd" disabled>
+                <span class="tag-text">MUTCD</span>
+              </label>
+            </div>
+          </form>
         </div>
         
         <div class="chat-history" id="chatHistory" role="log" aria-live="polite" aria-label="Conversation history">
@@ -784,6 +1360,7 @@
         </div>
         
         <div class="chat-input-area">
+          <div id="inputError" class="input-error" style="display: none;">Please enter a question.</div>
           <div class="input-group">
             <label for="queryInput" class="sr-only">Enter your question about transportation standards</label>
             <textarea 
@@ -798,6 +1375,9 @@
               <span class="btn-icon" aria-hidden="true">→</span>
             </button>
           </div>
+          <div class="clear-chat-container">
+            <button id="clearChatButton" class="clear-chat-btn" type="button">Clear Chat</button>
+          </div>
           <p id="input-help" class="sr-only">Press Enter to send, Shift+Enter for new line</p>
           <p id="send-help" class="sr-only">Send your question to MISO</p>
         </div>
@@ -805,7 +1385,7 @@
 
       <!-- Sample Questions Section - Moved below chat for helper context -->
       <section class="sample-questions" aria-labelledby="sample-questions-heading">
-        <h2 id="sample-questions-heading">Sample Questions</h2>
+        <h3 id="sample-questions-heading">Representative Queries</h3>
         <div class="question-grid" role="list" aria-label="Sample questions">
           <button class="question-card" role="listitem" data-question="How does DOE define 'system-level' impacts of automated vehicles?" aria-describedby="question-help">
             <span class="question-text">How does DOE define "system-level" impacts of automated vehicles?</span>
@@ -828,8 +1408,8 @@
         </div>
         
         <details class="additional-questions">
-          <summary>More example research questions</summary>
-          <div class="question-list" role="list" aria-label="Additional sample questions">
+          <summary aria-expanded="false" aria-controls="additional-questions-list">More example research questions</summary>
+          <div class="question-list" id="additional-questions-list" role="list" aria-label="Additional sample questions">
             <button class="question-card" role="listitem" data-question="How could AV manufacturers align product roadmaps with DOE energy priorities?" aria-describedby="question-help">
               <span class="question-text">How could AV manufacturers align with DOE energy priorities?</span>
             </button>
@@ -849,8 +1429,14 @@
   <footer class="main-footer" role="contentinfo">
     <div class="container">
       <div class="footer-content">
-        <p>For research and educational use</p>
-        <p>UML ITS Research</p>
+        <div class="footer-disclaimer">
+          <p><strong>Disclaimer:</strong> MISO is an experimental, research-stage platform intended for exploratory and educational use. Responses may be incomplete, simplified, or subject to model and retrieval limitations. Advanced features such as data source selection and section-level references and citations are available on the internal web version only.</p>
+          <p>This system is not a substitute for professional engineering judgment, regulatory review, or official guidance.</p>
+        </div>
+        <div class="footer-credits">
+          <p>For research and educational use</p>
+          <p>UML ITS Research</p>
+        </div>
       </div>
     </div>
   </footer>
@@ -864,6 +1450,21 @@
 
   // Add click handlers for sample questions
   document.addEventListener('DOMContentLoaded', function() {
+    // Restore chat history from sessionStorage
+    const chatHistory = document.getElementById('chatHistory');
+    const savedHistory = sessionStorage.getItem('misoChat');
+    if (savedHistory) {
+      chatHistory.innerHTML = savedHistory;
+      // Scroll to bottom to show the latest messages
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+    }
+    
+    // Clear chat button functionality
+    document.getElementById('clearChatButton').addEventListener('click', function() {
+      chatHistory.innerHTML = '';
+      sessionStorage.removeItem('misoChat');
+    });
+    
     document.querySelectorAll('.question-card').forEach(button => {
       button.addEventListener('click', (e) => {
         const questionText = e.currentTarget.dataset.question;
@@ -876,6 +1477,31 @@
         chatInput.focus();
       });
     });
+    
+    // Improve accessibility for details element
+    const detailsElement = document.querySelector('.additional-questions');
+    const summaryElement = detailsElement.querySelector('summary');
+    
+    if (detailsElement && summaryElement) {
+      detailsElement.addEventListener('toggle', function() {
+        const isOpen = detailsElement.open;
+        summaryElement.setAttribute('aria-expanded', isOpen.toString());
+        
+        // Announce state change to screen readers
+        const announcement = isOpen ? 'Additional questions expanded' : 'Additional questions collapsed';
+        const ariaLive = document.createElement('div');
+        ariaLive.setAttribute('aria-live', 'polite');
+        ariaLive.setAttribute('aria-atomic', 'true');
+        ariaLive.className = 'sr-only';
+        ariaLive.textContent = announcement;
+        document.body.appendChild(ariaLive);
+        
+        // Remove the announcement after screen readers have processed it
+        setTimeout(() => {
+          document.body.removeChild(ariaLive);
+        }, 1000);
+      });
+    }
   });
 
   async function ask() {
@@ -884,15 +1510,18 @@
     const btn = document.getElementById("sendButton");
 
     if (!query) {
-      // Add error message to chat history instead of using the old pre element
-      const errorMsg = document.createElement('div');
-      errorMsg.className = 'message error-message';
-      errorMsg.textContent = "Please enter a question.";
-      chatHistory.appendChild(errorMsg);
+      // Show error message above text box
+      const inputError = document.getElementById("inputError");
+      inputError.style.display = "block";
       return;
     }
 
+    // Hide error message if it's showing
+    const inputError = document.getElementById("inputError");
+    inputError.style.display = "none";
+
     btn.disabled = true;
+    document.getElementById("queryInput").disabled = true; // Disable textarea
     
     // Add user message to chat history
     const userMsg = document.createElement('div');
@@ -900,14 +1529,41 @@
     userMsg.textContent = query;
     chatHistory.appendChild(userMsg);
     
-    // Add thinking message
+    // Save chat history to sessionStorage
+    sessionStorage.setItem('misoChat', chatHistory.innerHTML);
+    
+    // Check if this is the first message and scroll to domain tags
+    const existingMessages = chatHistory.querySelectorAll('.message:not(.thinking)');
+    if (existingMessages.length === 1) { // First message (just added)
+      // Smooth scroll to domain tags to bring them to top of viewport
+      const domainTags = document.querySelector('.domain-tags');
+      if (domainTags) {
+        domainTags.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+    
+    // Add thinking message with JavaScript-animated dots
     const thinkingMsg = document.createElement('div');
     thinkingMsg.className = 'message miso-message thinking';
-    thinkingMsg.textContent = "Thinking...";
+    thinkingMsg.innerHTML = 'Thinking<span class="dots"></span>';
     chatHistory.appendChild(thinkingMsg);
+    
+    // Animate dots with JavaScript for better browser compatibility
+    const dotsSpan = thinkingMsg.querySelector('.dots');
+    let dotCount = 0;
+    const dotInterval = setInterval(() => {
+      dotCount = (dotCount + 1) % 4;
+      dotsSpan.textContent = '.'.repeat(dotCount);
+    }, 375); // 1.5s / 4 = 375ms per step
+    
+    // Store interval ID so we can clear it later
+    thinkingMsg.dotInterval = dotInterval;
     
     // Scroll to bottom
     chatHistory.scrollTop = chatHistory.scrollHeight;
+
+    // Start timing the API request
+    const startTime = performance.now();
 
     try {
       const res = await fetch(
@@ -920,8 +1576,13 @@
       );
 
       const data = await res.json();
+      
+      // Calculate response time
+      const endTime = performance.now();
+      const responseTime = Math.round(endTime - startTime);
 
       // Remove thinking message
+      clearInterval(thinkingMsg.dotInterval);
       chatHistory.removeChild(thinkingMsg);
 
       // Add MISO response
@@ -930,29 +1591,58 @@
       
       if (!res.ok) {
         misoMsg.className += ' error-message';
-        misoMsg.textContent = "Error: " + (data.error || res.status);
+        
+        // Provide user-friendly error messages based on status code
+        let errorMessage;
+        if (res.status >= 400 && res.status < 500) {
+          errorMessage = "Invalid request or policy restriction";
+        } else if (res.status >= 500) {
+          errorMessage = "Backend service unavailable";
+        } else {
+          errorMessage = data.error || `Error ${res.status}`;
+        }
+        
+        misoMsg.innerHTML = `${errorMessage}<div class="response-time">${responseTime}ms</div>`;
       } else {
-        misoMsg.textContent = data.answer || "No answer returned.";
+        const answer = data.answer || "No answer returned.";
+        misoMsg.innerHTML = `${answer}<div class="response-time">${responseTime}ms</div>`;
       }
       
       chatHistory.appendChild(misoMsg);
 
+      // Save chat history to sessionStorage
+      sessionStorage.setItem('misoChat', chatHistory.innerHTML);
+
+      // Scroll chat history to bottom to show new message
+      chatHistory.scrollTop = chatHistory.scrollHeight;
+
     } catch (err) {
       // Remove thinking message
       if (chatHistory.contains(thinkingMsg)) {
+        clearInterval(thinkingMsg.dotInterval);
         chatHistory.removeChild(thinkingMsg);
       }
+      
+      // Calculate response time for error case
+      const endTime = performance.now();
+      const responseTime = Math.round(endTime - startTime);
       
       // Add error message
       const errorMsg = document.createElement('div');
       errorMsg.className = 'message miso-message error-message';
-      errorMsg.textContent = "Network error: " + err.message;
+      errorMsg.innerHTML = `Network error: ${err.message}<div class="response-time">${responseTime}ms</div>`;
       chatHistory.appendChild(errorMsg);
+      
+      // Save chat history to sessionStorage
+      sessionStorage.setItem('misoChat', chatHistory.innerHTML);
+      
+      // Scroll chat history to bottom to show new message
+      chatHistory.scrollTop = chatHistory.scrollHeight;
     } finally {
       btn.disabled = false;
-      // Clear input and scroll to bottom
+      document.getElementById("queryInput").disabled = false; // Re-enable textarea
+      // Clear input
       document.getElementById("queryInput").value = "";
-      chatHistory.scrollTop = chatHistory.scrollHeight;
     }
   }
 
@@ -964,8 +1654,34 @@
     }
   });
 
+  // Hide error message when user starts typing
+  document.getElementById("queryInput").addEventListener("input", function () {
+    const inputError = document.getElementById("inputError");
+    inputError.style.display = "none";
+  });
+
   // Add click handler for send button
   document.getElementById("sendButton").addEventListener("click", ask);
+  
+  // Improve keyboard navigation for question cards
+  document.querySelectorAll('.question-card').forEach(button => {
+    button.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        button.click();
+      }
+    });
+  });
+  
+  // Add keyboard navigation for details summary
+  document.querySelector('.additional-questions summary').addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      const details = this.parentElement;
+      details.open = !details.open;
+      details.dispatchEvent(new Event('toggle'));
+    }
+  });
 </script>
 
 </body>
