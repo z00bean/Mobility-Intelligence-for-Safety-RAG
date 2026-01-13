@@ -14,6 +14,10 @@ MISO prioritizes **depth, interpretability, and standards fidelity** over breadt
 
 ---
 
+<img src="img/banner.jpg" alt="MISO Banner" width="600">
+
+<img src="img/screenshot-MISO2scaled.jpg" alt="MISO Screenshot" width="600">
+
 ## Purpose & Motivation
 
 Transportation and mobility domains rely heavily on large, complex, and often fragmented technical documents (e.g., MUTCD, FHWA guidance, AV policy frameworks). These documents:
