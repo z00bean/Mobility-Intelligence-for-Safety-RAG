@@ -53,6 +53,10 @@ Instead of flat text chunking, documents are ingested using **structural hierarc
 - Enables precise citation and trace-back  
 - Improves retrieval quality for clause-specific queries  
 
+
+<img src="img/bedrock-scrshot.jpg" alt="MISO Screenshot" width="800">
+
+
 ---
 
 ## Architecture Overview (AWS)
