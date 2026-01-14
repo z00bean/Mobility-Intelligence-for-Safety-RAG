@@ -1,3 +1,6 @@
+<img src="img/banner.jpg" alt="MISO Banner" width="600">
+
+
 # MISO – Mobility Intelligence for Safety & Operations
 <!--
 **Website:** https://miso-mobility.info | 
@@ -14,9 +17,7 @@ MISO prioritizes **depth, interpretability, and standards fidelity** over breadt
 
 ---
 
-<img src="img/banner.jpg" alt="MISO Banner" width="600">
-
-<img src="img/screenshot-MISO2scaled.jpg" alt="MISO Screenshot" width="600">
+<img src="img/screenshot-MISO2scaled.jpg" alt="MISO Screenshot" width="700">
 
 ## Purpose & Motivation
 
