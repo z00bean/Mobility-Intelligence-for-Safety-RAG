@@ -1,5 +1,3 @@
-<img src="img/banner.jpg" alt="MISO Banner" width="600">
-
 
 # MISO – Mobility Intelligence for Safety & Operations
 <!--

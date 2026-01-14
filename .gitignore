@@ -9,6 +9,7 @@ metadata.json
 *.metadata.json
 .vscode/
 test*
+.kiroignore
 
 # Logs
 logs
