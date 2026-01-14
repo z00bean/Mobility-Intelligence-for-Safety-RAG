@@ -3,7 +3,7 @@
 <!--
 **Website:** https://miso-mobility.info | 
 -->
-**Test URL:** https://d34ct49ld973pt.cloudfront.net
+**URL:** http://miso-mobility.info | https://d34ct49ld973pt.cloudfront.net
 
 
 MISO is a **standards-focused, retrieval-augmented intelligence platform** designed to support transportation engineering, traffic operations, safety analysis, and mobility research through **structured and explainable querying** of authoritative technical documents.
