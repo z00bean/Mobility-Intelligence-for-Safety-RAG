@@ -15,9 +15,10 @@ The platform operates over a curated knowledge base of **U.S. transportation, sa
 MISO prioritizes **depth, interpretability, and standards fidelity** over breadth, enabling rigorous use in civil engineering, Intelligent Transportation Systems (ITS), and safety-critical mobility research. The system is developed primarily for **internal research and prototyping** <!--within the UML ITS research group, with an emphasis on accuracy, traceability, and technical rigor rather than general-purpose conversational AI.-->
 
 
----
 
-<img src="img/screenshot-MISO2scaled.jpg" alt="MISO Screenshot" width="700">
+<img src="img/screenshot-MISO2scaled.jpg" alt="MISO Screenshot" width="800">
+
+---
 
 ## Purpose & Motivation
 
