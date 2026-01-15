@@ -451,19 +451,51 @@
       flex-wrap: wrap;
       justify-content: center; /* Center align the tags */
       gap: var(--spacing-sm);
-      margin-bottom: var(--spacing-lg);
+      margin-bottom: var(--spacing-sm);
+      margin-top: var(--spacing-md);
     }
 
     .domain-tags-section {
       margin-bottom: var(--spacing-lg);
     }
 
-    .domain-tags-label {
+    .domain-tags-section summary {
+      cursor: pointer;
+      padding: var(--spacing-md) var(--spacing-lg);
+      background-color: var(--color-bg-accent);
+      border-radius: var(--radius-md);
+      border: 1px solid var(--color-border-light);
+      font-weight: var(--font-weight-medium);
+      color: var(--color-text-primary);
+      transition: all var(--transition-fast);
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      position: relative;
       font-size: var(--font-size-sm);
-      font-weight: var(--font-weight-semibold);
-      color: var(--color-text-secondary);
-      margin-bottom: var(--spacing-md);
-      text-align: center; /* Center align the label */
+      text-align: center;
+      justify-content: center;
+    }
+
+    .domain-tags-section summary:hover {
+      background-color: var(--color-bg-accent);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .domain-tags-section summary:active {
+      transform: translateY(0);
+    }
+
+    .domain-tags-section[open] summary {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+      margin-bottom: 0;
+    }
+
+    .domain-tags-section #domain-tags-content {
+      animation: slideDown 0.2s ease-out;
+      padding: var(--spacing-sm) 0 0 0;
     }
 
     .selected-tag {
@@ -520,17 +552,6 @@
       cursor: not-allowed;
       opacity: 0.7;
       position: relative;
-      padding-left: calc(var(--spacing-md) + 16px); /* Make room for lock icon */
-    }
-
-    .disabled-tag::before {
-      content: "🔒";
-      position: absolute;
-      left: var(--spacing-xs);
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 10px;
-      opacity: 0.8;
     }
 
     .disabled-tag:hover {
@@ -815,23 +836,6 @@
       opacity: 0.6;
       cursor: not-allowed;
       transform: none;
-    }
-
-    /* Send button pulse animation when enabled */
-    .send-btn:not(:disabled) {
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% {
-        box-shadow: 0 0 0 0 rgba(212, 197, 224, 0.7);
-      }
-      70% {
-        box-shadow: 0 0 0 10px rgba(212, 197, 224, 0);
-      }
-      100% {
-        box-shadow: 0 0 0 0 rgba(212, 197, 224, 0);
-      }
     }
 
     .btn-icon {
@@ -1391,41 +1395,43 @@
         <h2 id="chat-heading" class="sr-only">Chat with MISO</h2>
         
         <!-- Domain Tags moved above chat -->
-        <div class="domain-tags-section">
-          <div class="domain-tags-label">Data Sources (Source selection &amp; citation view are available on the internal version)</div>
-          <form class="domain-tags-form">
-            <div class="domain-tags" role="group" aria-label="Covered domains">
-              <label class="tag disabled-tag selected-tag" data-tooltip="Select all data sources">
-                <input type="checkbox" name="datasource" value="all" checked disabled>
-                <span class="tag-text"><b>All</b></span>
-              </label>
-              <label class="tag disabled-tag" data-tooltip="U.S. Department of Transportation">
-                <input type="checkbox" name="datasource" value="usdot" disabled>
-                <span class="tag-text">USDOT</span>
-              </label>
-              <label class="tag disabled-tag" data-tooltip="Federal Highway Administration">
-                <input type="checkbox" name="datasource" value="fhwa" disabled>
-                <span class="tag-text">FHWA</span>
-              </label>
-              <label class="tag disabled-tag" data-tooltip="Federal Aviation Administration">
-                <input type="checkbox" name="datasource" value="faa" disabled>
-                <span class="tag-text">FAA</span>
-              </label>
-              <label class="tag disabled-tag" data-tooltip="Occupational Safety and Health Administration">
-                <input type="checkbox" name="datasource" value="osha" disabled>
-                <span class="tag-text">OSHA</span>
-              </label>
-              <label class="tag disabled-tag" data-tooltip="USDOT AV, FHWA AV">
-                <input type="checkbox" name="datasource" value="av-policy" disabled>
-                <span class="tag-text">AV Policy</span>
-              </label>
-              <label class="tag disabled-tag" data-tooltip="Manual on Uniform Traffic Control Devices">
-                <input type="checkbox" name="datasource" value="mutcd" disabled>
-                <span class="tag-text">MUTCD</span>
-              </label>
-            </div>
-          </form>
-        </div>
+        <details class="domain-tags-section">
+          <summary aria-expanded="false" aria-controls="domain-tags-content">Data Sources (Source selection &amp; citation view are available on the internal version)</summary>
+          <div id="domain-tags-content">
+            <form class="domain-tags-form">
+              <div class="domain-tags" role="group" aria-label="Covered domains">
+                <label class="tag disabled-tag selected-tag" data-tooltip="Select all data sources">
+                  <input type="checkbox" name="datasource" value="all" checked disabled>
+                  <span class="tag-text"><b>All</b></span>
+                </label>
+                <label class="tag disabled-tag" data-tooltip="U.S. Department of Transportation">
+                  <input type="checkbox" name="datasource" value="usdot" disabled>
+                  <span class="tag-text">USDOT</span>
+                </label>
+                <label class="tag disabled-tag" data-tooltip="Federal Highway Administration">
+                  <input type="checkbox" name="datasource" value="fhwa" disabled>
+                  <span class="tag-text">FHWA</span>
+                </label>
+                <label class="tag disabled-tag" data-tooltip="Federal Aviation Administration">
+                  <input type="checkbox" name="datasource" value="faa" disabled>
+                  <span class="tag-text">FAA</span>
+                </label>
+                <label class="tag disabled-tag" data-tooltip="Occupational Safety and Health Administration">
+                  <input type="checkbox" name="datasource" value="osha" disabled>
+                  <span class="tag-text">OSHA</span>
+                </label>
+                <label class="tag disabled-tag" data-tooltip="USDOT AV, FHWA AV">
+                  <input type="checkbox" name="datasource" value="av-policy" disabled>
+                  <span class="tag-text">AV Policy</span>
+                </label>
+                <label class="tag disabled-tag" data-tooltip="Manual on Uniform Traffic Control Devices">
+                  <input type="checkbox" name="datasource" value="mutcd" disabled>
+                  <span class="tag-text">MUTCD</span>
+                </label>
+              </div>
+            </form>
+          </div>
+        </details>
         
         <div class="chat-history" id="chatHistory" role="log" aria-live="polite" aria-label="Conversation history">
           <!-- Dynamic conversation content will be added here -->
@@ -1568,6 +1574,31 @@
         
         // Announce state change to screen readers
         const announcement = isOpen ? 'Additional questions expanded' : 'Additional questions collapsed';
+        const ariaLive = document.createElement('div');
+        ariaLive.setAttribute('aria-live', 'polite');
+        ariaLive.setAttribute('aria-atomic', 'true');
+        ariaLive.className = 'sr-only';
+        ariaLive.textContent = announcement;
+        document.body.appendChild(ariaLive);
+        
+        // Remove the announcement after screen readers have processed it
+        setTimeout(() => {
+          document.body.removeChild(ariaLive);
+        }, 1000);
+      });
+    }
+
+    // Improve accessibility for domain tags details element
+    const domainTagsDetails = document.querySelector('.domain-tags-section');
+    const domainTagsSummary = domainTagsDetails ? domainTagsDetails.querySelector('summary') : null;
+    
+    if (domainTagsDetails && domainTagsSummary) {
+      domainTagsDetails.addEventListener('toggle', function() {
+        const isOpen = domainTagsDetails.open;
+        domainTagsSummary.setAttribute('aria-expanded', isOpen.toString());
+        
+        // Announce state change to screen readers
+        const announcement = isOpen ? 'Data sources expanded' : 'Data sources collapsed';
         const ariaLive = document.createElement('div');
         ariaLive.setAttribute('aria-live', 'polite');
         ariaLive.setAttribute('aria-atomic', 'true');
@@ -1779,6 +1810,19 @@ Reason for incompleteness: -
       details.dispatchEvent(new Event('toggle'));
     }
   });
+
+  // Add keyboard navigation for domain tags summary
+  const domainTagsSummary = document.querySelector('.domain-tags-section summary');
+  if (domainTagsSummary) {
+    domainTagsSummary.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        const details = this.parentElement;
+        details.open = !details.open;
+        details.dispatchEvent(new Event('toggle'));
+      }
+    });
+  }
 </script>
 
 </body>
